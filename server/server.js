@@ -143,21 +143,14 @@ app.post('/users/login', (req, res) => {
   }).catch((e) => {
     res.status(400).send();
   });
+});
 
-  // User.find({email}).then((user) => {
-  //   console.log(user);
-  //   console.log(user.get(password));
-  //   bcrypt.genSalt(10, (err, salt) => {
-  //     bcrypt.hash(body.password, salt, (err, hash) => {
-  //       console.log(hash);
-  //       console.log(user.password);
-  //       bcrypt.compare(user.password, hash, (err, res) => {
-  //         console.log('Logged in');
-  //       });
-  //     })
-  //   });
-  // });
-
+app.delete('/users/me/token', authenticate, (req, res) => {
+  req.user.removeToken(req.token).then(() => {
+    res.status(200).send();
+  }, () => {
+    res.status(400).send();
+  });
 });
 
 app.listen(port, () => {
